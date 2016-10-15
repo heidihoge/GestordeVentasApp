@@ -1,0 +1,5 @@
+<resources>
+    <string name="misclientes">MIS CLIENTES</string>
+    <string name="mispedidos">PEDIDOS</string>
+    <string name="app_name">Gestor de Ventas</string>
+</resources>
