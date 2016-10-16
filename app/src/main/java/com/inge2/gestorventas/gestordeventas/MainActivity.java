@@ -1,5 +1,6 @@
 package com.inge2.gestorventas.gestordeventas;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //creamos una instancia de la clase DbHelper, y le pasamos el contexto
+        DbHelper helper = new DbHelper(this);
+
+        SQLiteDatabase db =helper.getWritableDatabase();
 
     /* Example of a call to a native method
     TextView tv = (TextView) findViewById(R.id.sample_text);
