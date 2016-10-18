@@ -1,15 +1,21 @@
 package com.inge2.gestorventas.gestordeventas;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.inge2.gestorventas.gestordeventas.sqlite.BaseDatosPedidos;
+import com.inge2.gestorventas.gestordeventas.sqlite.OperacionesBaseDatos;
+import com.inge2.gestorventas.gestordeventas.ui.ActividadListaPedidos;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,10 +31,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //creamos una instancia de la clase DbHelper, y le pasamos el contexto
-        DbHelper helper = new DbHelper(this);
-
-        SQLiteDatabase db =helper.getWritableDatabase();
+        Button bt= (Button) findViewById(R.id.btnMisPedidos);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ActividadListaPedidos.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
 
     /* Example of a call to a native method
     TextView tv = (TextView) findViewById(R.id.sample_text);
