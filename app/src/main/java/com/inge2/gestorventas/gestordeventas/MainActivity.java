@@ -16,6 +16,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.inge2.gestorventas.gestordeventas.sqlite.BaseDatosPedidos;
 import com.inge2.gestorventas.gestordeventas.sqlite.OperacionesBaseDatos;
 import com.inge2.gestorventas.gestordeventas.ui.ActividadListaPedidos;
+import com.inge2.gestorventas.gestordeventas.ui.MostrarCliente;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,6 +37,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ActividadListaPedidos.class);
+                MainActivity.this.startActivity(intent);
+
+
+            }
+        });
+        Button btn= (Button) findViewById(R.id.btnClientes);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MostrarCliente.class);
                 MainActivity.this.startActivity(intent);
             }
         });

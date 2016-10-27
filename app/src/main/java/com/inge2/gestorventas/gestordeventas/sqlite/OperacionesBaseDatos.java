@@ -191,7 +191,6 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
             SQLiteDatabase db = baseDatos.getReadableDatabase();
 
             String sql = String.format("SELECT * FROM %s", Tablas.PRODUCTO);
-
             return db.rawQuery(sql, null);
         }
 
