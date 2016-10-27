@@ -36,8 +36,8 @@ import java.util.Calendar;
 
 public class ActividadListaPedidos extends AppCompatActivity {
 
-
     private static Boolean queryExecuted = false;
+
 
     OperacionesBaseDatos datos;
     /**
@@ -155,7 +155,7 @@ public class ActividadListaPedidos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.actividad_lista_pedidos);
+        setContentView(com.inge2.gestorventas.gestordeventas.R.layout.actividad_lista_pedidos);
         ViewGroup l = (ViewGroup) findViewById(R.id.linear_layout_lista_pedidos);
         //setSupportActionBar(toolbar);
 
@@ -178,6 +178,7 @@ public class ActividadListaPedidos extends AppCompatActivity {
         }
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
+
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
