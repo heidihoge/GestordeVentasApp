@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:table="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_levantar_pedido"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.inge2.gestorventas.gestordeventas.ui.LevantarPedido"
+    android:weightSum="1">
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Producto"
+        android:layout_weight="0.10" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/Cantidad"
+        android:layout_weight="0.05"
+        android:singleLine="true"
+        android:text="0" />
+
+    <Button
+        android:text="Agregar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Agregar"
+        android:layout_weight="0.10" />
+
+    <de.codecrafters.tableview.TableView
+        android:id="@+id/productos"
+        android:layout_width="match_parent"
+        android:layout_height="359dp"
+        android:dividerHeight="1dip"
+        table:tableView_columnCount="3" />
+
+</LinearLayout>

@@ -7,6 +7,8 @@ package com.inge2.gestorventas.gestordeventas.modelo;
 
 public class Cliente {
 
+    transient volatile public static Cliente clienteSeleccionado = null;
+
     public String direccion;
 
     public String idCliente;

@@ -20,4 +20,9 @@ public class Producto {
         this.precio = precio;
         this.existencias = existencias;
     }
+
+    @Override
+    public String toString(){
+        return this.nombre + "(" + this.precio + " Gs)";
+    }
 }
