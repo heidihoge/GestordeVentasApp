@@ -7,8 +7,10 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
     import android.content.ContentValues;
     import android.content.Context;
     import android.database.Cursor;
+    import android.database.DatabaseUtils;
     import android.database.sqlite.SQLiteDatabase;
     import android.database.sqlite.SQLiteQueryBuilder;
+    import android.util.Log;
 
     import com.inge2.gestorventas.gestordeventas.modelo.CabeceraPedido;
     import com.inge2.gestorventas.gestordeventas.modelo.Cliente;
@@ -22,7 +24,9 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
     import com.inge2.gestorventas.gestordeventas.sqlite.ContratoPedidos.FormasPago;
     import com.inge2.gestorventas.gestordeventas.sqlite.ContratoPedidos.Productos;
 
-    /**
+    import java.util.Calendar;
+
+/**
      * Clase auxiliar que implementa a {@link BaseDatosPedidos} para llevar a cabo el CRUD
      * sobre las entidades existentes.
      */
@@ -31,9 +35,10 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
         private static BaseDatosPedidos baseDatos;
 
         private static OperacionesBaseDatos instancia = new OperacionesBaseDatos();
+    private static volatile Boolean queryExecuted = false;
 
 
-        private OperacionesBaseDatos() {
+    private OperacionesBaseDatos() {
         }
 
         public static OperacionesBaseDatos obtenerInstancia(Context contexto) {
@@ -360,6 +365,71 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
                 Clientes.NOMBRES,
                 Clientes.APELLIDOS,
                 FormasPago.NOMBRE};
+
+        public void bootstrap(){
+            if(queryExecuted){
+                return;
+            }
+            queryExecuted = Boolean.TRUE;
+            // [INSERCIONES]
+            String fechaActual = Calendar.getInstance().getTime().toString();
+            OperacionesBaseDatos datos = this;
+            try {
+
+                datos.getDb().beginTransaction();
+
+                // Inserción Clientes
+                String cliente1 = datos.insertarCliente(new Cliente(null, "Heidi", "Hoge", "111111", "abc"));
+                String cliente2 = datos.insertarCliente(new Cliente(null, "Laura", "Calderon", "222222", "def"));
+                String cliente3 = datos.insertarCliente(new Cliente(null, "Marilia", "Sanchez", "333333", "ghi"));
+
+                // Inserción Formas de pago
+                String formaPago1 = datos.insertarFormaPago(new FormaPago(null, "Efectivo"));
+                String formaPago2 = datos.insertarFormaPago(new FormaPago(null, "Efectivo"));
+
+
+                // Inserción Productos
+                String producto1 = datos.insertarProducto(new Producto(null, "Jugo De Naranja", 1, 8000));
+                String producto2 = datos.insertarProducto(new Producto(null, "Jugo De Pera", 2, 5000));
+                String producto3 = datos.insertarProducto(new Producto(null, "Pan de Gluten", 4, 14000));
+                String producto4 = datos.insertarProducto(new Producto(null, "Mermelada de Frutilla", 3, 6500));
+
+                // Inserción Pedidos
+                String pedido1 = datos.insertarCabeceraPedido(
+                        new CabeceraPedido(null, fechaActual, cliente1, formaPago1, null));
+                String pedido2 = datos.insertarCabeceraPedido(
+                        new CabeceraPedido(null, fechaActual, cliente2, formaPago2, null));
+
+                // Inserción Detalles
+                datos.insertarDetallePedido(new DetallePedido(pedido1, 1, producto1, 5, 2));
+                datos.insertarDetallePedido(new DetallePedido(pedido1, 2, producto2, 10, 3));
+                datos.insertarDetallePedido(new DetallePedido(pedido2, 1, producto3, 30, 5));
+                datos.insertarDetallePedido(new DetallePedido(pedido2, 2, producto4, 20, 3.6f));
+
+                // Eliminación Pedido
+                datos.eliminarCabeceraPedido(pedido1);
+
+                // Actualización Cliente
+                //datos.actualizarCliente(new Cliente(cliente2, "Laurita", "Calderon", "3333333", "abcd"));
+
+                datos.getDb().setTransactionSuccessful();
+            } finally {
+                datos.getDb().endTransaction();
+            }
+//
+//            // [QUERIES]
+//            Log.d("Clientes", "Clientes");
+//            DatabaseUtils.dumpCursor(datos.obtenerClientes());
+//            Log.d("Formas de pago", "Formas de pago");
+//            DatabaseUtils.dumpCursor(datos.obtenerFormasPago());
+//            Log.d("Productos", "Productos");
+//            DatabaseUtils.dumpCursor(datos.obtenerProductos());
+//            Log.d("Cabeceras de pedido", "Cabeceras de pedido");
+//            DatabaseUtils.dumpCursor(datos.obtenerCabecerasPedidos());
+//            Log.d("Detalles de pedido", "Detalles de pedido");
+//            DatabaseUtils.dumpCursor(datos.obtenerDetallesPedido());
+
+        }
 
     }
 

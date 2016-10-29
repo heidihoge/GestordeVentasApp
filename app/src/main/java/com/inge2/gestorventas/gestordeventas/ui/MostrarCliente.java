@@ -132,16 +132,16 @@ public class MostrarCliente extends AppCompatActivity {
         table.addDataClickListener(new TableDataClickListener<Cliente>() {
             @Override
             public void onDataClicked(int rowIndex, Cliente clickedCliente) {
-                String clickedCarString = clickedCliente.apellidos + ", " + clickedCliente.nombres;
-                Toast.makeText(MostrarCliente.this , clickedCarString, Toast.LENGTH_SHORT).show();
+                String clickedClienteString = clickedCliente.apellidos + ", " + clickedCliente.nombres;
+                Toast.makeText(MostrarCliente.this , clickedClienteString, Toast.LENGTH_SHORT).show();
                 Cliente.clienteSeleccionado = clickedCliente;
                 Intent intent = new Intent(MostrarCliente.this, LevantarPedido.class);
                 MostrarCliente.this.startActivity(intent);
             }
         });
         table.setDataAdapter(new ClienteTableAdapter(this, clientes));
-        table.setHeaderAdapter(new SimpleTableHeaderAdapter(this, "Nombre y Apellido",
-                "Apellido", "Direccion", "Telefono"));
+        table.setHeaderAdapter(new SimpleTableHeaderAdapter(this, "Nombre"
+                , "Direccion", "Telefono"));
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();

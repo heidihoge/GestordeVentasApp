@@ -8,10 +8,22 @@
     android:orientation="vertical"
     android:longClickable="false">
 
-    <de.codecrafters.tableview.TableView
-        android:id="@+id/tableView"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:dividerHeight="1dip"
-        table:tableView_columnCount="3" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <de.codecrafters.tableview.TableView
+                android:id="@+id/tableView"
+                android:layout_width="577dp"
+                android:layout_height="wrap_content"
+                android:dividerHeight="1dip"
+                table:tableView_columnCount="3" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
 </LinearLayout>

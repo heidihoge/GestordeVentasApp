@@ -15,31 +15,28 @@
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Producto"
-        android:layout_weight="0.10" />
+        android:layout_height="61dp"
+        android:id="@+id/Producto" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="66dp"
         android:inputType="number"
         android:ems="10"
         android:id="@+id/Cantidad"
-        android:layout_weight="0.05"
         android:singleLine="true"
         android:text="0" />
 
     <Button
         android:text="Agregar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/Agregar"
-        android:layout_weight="0.10" />
+        android:layout_height="70dp"
+        android:id="@+id/Agregar" />
 
     <de.codecrafters.tableview.TableView
         android:id="@+id/productos"
-        android:layout_width="match_parent"
-        android:layout_height="359dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:dividerHeight="1dip"
         table:tableView_columnCount="3" />
 
