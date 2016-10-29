@@ -377,6 +377,17 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
             try {
 
                 datos.getDb().beginTransaction();
+                String sql = String.format("SELECT * FROM %s", Tablas.PRODUCTO);
+                Cursor cursor = datos.getDb().rawQuery(sql, null);
+                cursor.moveToNext();
+                if(cursor.getCount() > 0){
+                    return;
+                }
+
+
+
+
+
 
                 // Inserción Clientes
                 String cliente1 = datos.insertarCliente(new Cliente(null, "Heidi", "Hoge", "111111", "abc"));

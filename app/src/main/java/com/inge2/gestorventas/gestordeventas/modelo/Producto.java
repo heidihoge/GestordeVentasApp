@@ -6,6 +6,11 @@ package com.inge2.gestorventas.gestordeventas.modelo;
 
 public class Producto {
 
+    /** no se guarda en la base de datos **/
+    public transient int cantidad;
+
+    /** si se guarda en la base de datos **/
+
     public String idProducto;
 
     public String nombre;
