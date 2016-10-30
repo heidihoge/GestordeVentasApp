@@ -1,10 +1,15 @@
 package com.inge2.gestorventas.gestordeventas.modelo;
 
+import java.util.List;
+
 /**
  * Created by ADMIN on 17/10/2016.
  */
 
 public class CabeceraPedido {
+
+    public transient Cliente cliente;
+    public transient List<DetallePedido> detallePedidoList;
 
     public String idCabeceraPedido;
 
@@ -14,14 +19,11 @@ public class CabeceraPedido {
 
     public String idFormaPago;
 
-    public String direccion;
-
     public CabeceraPedido(String idCabeceraPedido, String fecha,
-                          String idCliente, String idFormaPago, String direccion) {
+                          String idCliente, String idFormaPago) {
         this.idCabeceraPedido = idCabeceraPedido;
         this.fecha = fecha;
         this.idCliente = idCliente;
         this.idFormaPago = idFormaPago;
-        this.direccion = direccion;
     }
 }

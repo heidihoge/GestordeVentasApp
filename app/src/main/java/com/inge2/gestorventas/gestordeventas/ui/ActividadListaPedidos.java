@@ -4,6 +4,7 @@ package com.inge2.gestorventas.gestordeventas.ui;
  * Created by ADMIN on 17/10/2016.
  */
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +20,7 @@ import android.util.Log;
 
 
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -30,9 +32,20 @@ import com.inge2.gestorventas.gestordeventas.modelo.Cliente;
 import com.inge2.gestorventas.gestordeventas.modelo.DetallePedido;
 import com.inge2.gestorventas.gestordeventas.modelo.FormaPago;
 import com.inge2.gestorventas.gestordeventas.modelo.Producto;
+import com.inge2.gestorventas.gestordeventas.modelo.table.ClienteTableAdapter;
+import com.inge2.gestorventas.gestordeventas.modelo.table.PedidosTableAdapter;
+import com.inge2.gestorventas.gestordeventas.modelo.table.ProductoTableAdapter;
 import com.inge2.gestorventas.gestordeventas.sqlite.OperacionesBaseDatos;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.listeners.TableDataClickListener;
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
+
+import static com.inge2.gestorventas.gestordeventas.ui.LevantarPedido.productos;
 
 public class ActividadListaPedidos extends AppCompatActivity {
 
@@ -156,31 +169,32 @@ public class ActividadListaPedidos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.inge2.gestorventas.gestordeventas.R.layout.actividad_lista_pedidos);
-        ViewGroup l = (ViewGroup) findViewById(R.id.linear_layout_lista_pedidos);
+       // ViewGroup l = (ViewGroup) findViewById(R.id.linear_layout_lista_pedidos);
+        TableView table = (TableView) findViewById(R.id.tableView);
         //setSupportActionBar(toolbar);
+        this.setTitle("             Pedidos                ");
 
 
-        getApplicationContext().deleteDatabase("pedidos.db");
         datos = OperacionesBaseDatos
                 .obtenerInstancia(getApplicationContext());
 
 
         new TareaPruebaDatos().execute();
 
-        Cursor cursor = datos.obtenerDetallesPedido();
+        Cursor cursor = datos.obtenerCabacerasPedidosRaw();
 
+        List<CabeceraPedido> listaPedidos = new ArrayList<>();
         while (cursor.moveToNext()) {
-            Button b = new Button(this);
-            b.setText(cursor.getString(2));
-            b.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT));
-            l.addView(b);
+            CabeceraPedido pedidos = new CabeceraPedido(cursor.getString(1),
+                    cursor.getString(2), cursor.getString(3), cursor.getString(4));
+            pedidos.cliente = datos.obtenerClientesPorId(pedidos.idCliente);
+            listaPedidos.add(pedidos);
         }
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
 
+
+        table.setDataAdapter(new PedidosTableAdapter(this, listaPedidos));
+        table.setHeaderAdapter(new SimpleTableHeaderAdapter(this, "Item"
+                , "Cliente", "Fecha"));
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
-
-
 }

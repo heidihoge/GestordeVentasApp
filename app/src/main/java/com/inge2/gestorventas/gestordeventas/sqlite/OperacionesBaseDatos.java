@@ -10,6 +10,7 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
     import android.database.DatabaseUtils;
     import android.database.sqlite.SQLiteDatabase;
     import android.database.sqlite.SQLiteQueryBuilder;
+    import android.provider.BaseColumns;
     import android.util.Log;
 
     import com.inge2.gestorventas.gestordeventas.modelo.CabeceraPedido;
@@ -57,6 +58,12 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
             builder.setTables(CABECERA_PEDIDO_JOIN_CLIENTE_Y_FORMA_PAGO);
 
             return builder.query(db, proyCabeceraPedido, null, null, null, null, null);
+        }
+
+        public Cursor obtenerCabacerasPedidosRaw(){
+            SQLiteDatabase db = baseDatos.getReadableDatabase();
+            String sql = String.format("SELECT * FROM %s", Tablas.CABECERA_PEDIDO);
+            return db.rawQuery(sql, null);
         }
 
         public Cursor obtenerCabeceraPorId(String id) {
@@ -253,6 +260,19 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
             return db.rawQuery(sql, null);
         }
 
+        public Cliente obtenerClientesPorId(String id){
+            SQLiteDatabase db = baseDatos.getReadableDatabase();
+
+            String sql = String.format("SELECT * FROM %s WHERE %s = '%s'",
+                    Tablas.CLIENTE, Clientes.ID, id);
+
+            Cursor cursor = db.rawQuery(sql, null);
+            cursor.moveToNext();
+            Cliente cliente = new Cliente(cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3),cursor.getString(4), cursor.getString(5));
+            return cliente;
+        }
+
         public String insertarCliente(Cliente cliente) {
             SQLiteDatabase db = baseDatos.getWritableDatabase();
 
@@ -362,6 +382,7 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
         private final String[] proyCabeceraPedido = new String[]{
                 Tablas.CABECERA_PEDIDO + "." + CabecerasPedido.ID,
                 CabecerasPedido.FECHA,
+                Tablas.CLIENTE + "." + Clientes.ID,
                 Clientes.NOMBRES,
                 Clientes.APELLIDOS,
                 FormasPago.NOMBRE};
@@ -407,9 +428,9 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
 
                 // Inserción Pedidos
                 String pedido1 = datos.insertarCabeceraPedido(
-                        new CabeceraPedido(null, fechaActual, cliente1, formaPago1, null));
+                        new CabeceraPedido(null, fechaActual, cliente1, formaPago1));
                 String pedido2 = datos.insertarCabeceraPedido(
-                        new CabeceraPedido(null, fechaActual, cliente2, formaPago2, null));
+                        new CabeceraPedido(null, fechaActual, cliente2, formaPago2));
 
                 // Inserción Detalles
                 datos.insertarDetallePedido(new DetallePedido(pedido1, 1, producto1, 5, 2));

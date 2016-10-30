@@ -9,14 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.inge2.gestorventas.gestordeventas.R;
+import com.inge2.gestorventas.gestordeventas.modelo.CabeceraPedido;
 import com.inge2.gestorventas.gestordeventas.modelo.Cliente;
+import com.inge2.gestorventas.gestordeventas.modelo.DetallePedido;
+import com.inge2.gestorventas.gestordeventas.modelo.FormaPago;
 import com.inge2.gestorventas.gestordeventas.modelo.Producto;
 import com.inge2.gestorventas.gestordeventas.modelo.table.ProductoTableAdapter;
 import com.inge2.gestorventas.gestordeventas.sqlite.OperacionesBaseDatos;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import de.codecrafters.tableview.TableDataAdapter;
@@ -38,6 +43,7 @@ public class LevantarPedido extends AppCompatActivity {
         final TableView tablaProductos = (TableView) findViewById(R.id.productos);
 
         Button agregar = (Button) findViewById(R.id.Agregar);
+        Button guardar = (Button) findViewById(R.id.Guardar);
 
         agregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,13 +54,15 @@ public class LevantarPedido extends AppCompatActivity {
                 productos.add(p);
 
                 tablaProductos.setDataAdapter(new ProductoTableAdapter(LevantarPedido.this , productos));
+
+                Toast.makeText(LevantarPedido.this, "Producto agregado", Toast.LENGTH_SHORT).show();
             }
         });
 
 
         tablaProductos.setHeaderAdapter(new SimpleTableHeaderAdapter(this, "Producto", "Precio", "Cantidad", "Total" ));
 
-        List<Producto> productos = new ArrayList();
+        final List<Producto> productos = new ArrayList();
         ArrayAdapter productoAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, productos);
         Cursor cursor = datos.obtenerProductos();
         while(cursor.moveToNext()){
@@ -63,6 +71,34 @@ public class LevantarPedido extends AppCompatActivity {
             productos.add(producto);
         }
         productoSpinner.setAdapter(productoAdapter);
+
+
+
+        guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OperacionesBaseDatos datos = OperacionesBaseDatos
+                        .obtenerInstancia(LevantarPedido.this.getApplicationContext());
+                datos.getDb().beginTransaction();
+                try {
+                    String fechaActual = Calendar.getInstance().getTime().toString();
+
+                    String formaPago1 = datos.insertarFormaPago(new FormaPago(null, "Efectivo"));
+                    String pedido1 = datos.insertarCabeceraPedido(
+                            new CabeceraPedido(null, fechaActual, Cliente.clienteSeleccionado.idCliente, formaPago1));
+                    int count = 1;
+                    for (Producto p : productos) {
+                        datos.insertarDetallePedido(new DetallePedido(pedido1, count++, p.idProducto, p.cantidad, p.precio));
+
+                    }
+                    datos.getDb().setTransactionSuccessful();
+                }finally{
+                    datos.getDb().endTransaction();
+                }
+                LevantarPedido.this.finish();
+                Toast.makeText(LevantarPedido.this.getParent(), "Pedido Guardado", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 }
