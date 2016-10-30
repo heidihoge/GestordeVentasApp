@@ -1,6 +1,7 @@
 package com.inge2.gestorventas.gestordeventas.ui;
 
 import android.database.Cursor;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -95,8 +96,13 @@ public class LevantarPedido extends AppCompatActivity {
                 }finally{
                     datos.getDb().endTransaction();
                 }
-                LevantarPedido.this.finish();
-                Toast.makeText(LevantarPedido.this.getParent(), "Pedido Guardado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LevantarPedido.this, "Pedido Guardado", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        LevantarPedido.this.finish();
+                    }
+                }, 2000);
             }
         });
 
