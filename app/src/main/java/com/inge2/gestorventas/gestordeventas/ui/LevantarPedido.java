@@ -49,7 +49,9 @@ public class LevantarPedido extends AppCompatActivity {
         agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Producto p = (Producto)productoSpinner.getSelectedItem();
+                Producto pOriginal = (Producto)productoSpinner.getSelectedItem();
+
+                Producto p = new Producto(pOriginal.idProducto, pOriginal.nombre, pOriginal.precio, pOriginal.existencias);
                 int c = Integer.parseInt(String.valueOf(cantidad.getText()));
                 p.cantidad = c;
                 productos.add(p);
@@ -63,13 +65,13 @@ public class LevantarPedido extends AppCompatActivity {
 
         tablaProductos.setHeaderAdapter(new SimpleTableHeaderAdapter(this, "Producto", "Precio", "Cantidad", "Total" ));
 
-        final List<Producto> productos = new ArrayList();
-        ArrayAdapter productoAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, productos);
+        final List<Producto> productosSpinner = new ArrayList();
+        ArrayAdapter productoAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, productosSpinner);
         Cursor cursor = datos.obtenerProductos();
         while(cursor.moveToNext()){
             Producto producto = new Producto(cursor.getString(1), cursor.getString(2),
                     cursor.getFloat(3), cursor.getInt(4));
-            productos.add(producto);
+            productosSpinner.add(producto);
         }
         productoSpinner.setAdapter(productoAdapter);
 
@@ -96,6 +98,7 @@ public class LevantarPedido extends AppCompatActivity {
                 }finally{
                     datos.getDb().endTransaction();
                 }
+                productos.clear();
                 Toast.makeText(LevantarPedido.this, "Pedido Guardado", Toast.LENGTH_SHORT).show();
                 new Handler().postDelayed(new Runnable() {
                     @Override
