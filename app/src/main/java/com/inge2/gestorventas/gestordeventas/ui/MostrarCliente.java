@@ -113,9 +113,10 @@ public class MostrarCliente extends AppCompatActivity {
         setContentView(R.layout.activity_mostrar_cliente);
         TableView table = (TableView) findViewById(R.id.tableView);
         //setSupportActionBar(toolbar);
+        this.setTitle("             Mis Clientes                ");
 
 
-//        getApplicationContext().deleteDatabase("clientes.db");
+        //getApplicationContext().deleteDatabase("pedidos.db");
         datos = OperacionesBaseDatos
                 .obtenerInstancia(getApplicationContext());
 

@@ -390,9 +390,9 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
 
 
                 // Inserción Clientes
-                String cliente1 = datos.insertarCliente(new Cliente(null, "Heidi", "Hoge", "111111", "abc"));
-                String cliente2 = datos.insertarCliente(new Cliente(null, "Laura", "Calderon", "222222", "def"));
-                String cliente3 = datos.insertarCliente(new Cliente(null, "Marilia", "Sanchez", "333333", "ghi"));
+                String cliente1 = datos.insertarCliente(new Cliente(null, "Heidi", "Hoge", "501476", "Leopardi 1912"));
+                String cliente2 = datos.insertarCliente(new Cliente(null, "Laura", "Calderon", "500147", "E.Ayala 123"));
+                String cliente3 = datos.insertarCliente(new Cliente(null, "Marilia", "Sanchez", "521474", "Mcal.Lopez 455"));
 
                 // Inserción Formas de pago
                 String formaPago1 = datos.insertarFormaPago(new FormaPago(null, "Efectivo"));
@@ -400,10 +400,10 @@ package com.inge2.gestorventas.gestordeventas.sqlite;
 
 
                 // Inserción Productos
-                String producto1 = datos.insertarProducto(new Producto(null, "Jugo De Naranja", 1, 8000));
-                String producto2 = datos.insertarProducto(new Producto(null, "Jugo De Pera", 2, 5000));
-                String producto3 = datos.insertarProducto(new Producto(null, "Pan de Gluten", 4, 14000));
-                String producto4 = datos.insertarProducto(new Producto(null, "Mermelada de Frutilla", 3, 6500));
+                String producto1 = datos.insertarProducto(new Producto(null, "Jugo De Naranja", 8000,250));
+                String producto2 = datos.insertarProducto(new Producto(null, "Jugo De Pera", 5000, 250));
+                String producto3 = datos.insertarProducto(new Producto(null, "Pan de Gluten", 14000, 250));
+                String producto4 = datos.insertarProducto(new Producto(null, "Mermelada de Frutilla",6500, 250));
 
                 // Inserción Pedidos
                 String pedido1 = datos.insertarCabeceraPedido(

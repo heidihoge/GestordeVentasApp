@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle("             Gestor de Ventas ISII");
 
         OperacionesBaseDatos
                 .obtenerInstancia(getApplicationContext()).bootstrap();
