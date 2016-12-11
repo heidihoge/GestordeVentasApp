@@ -19,19 +19,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <TextView
+                android:text="Producto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView2" />
+
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
                 android:id="@+id/Producto" />
 
-            <EditText
+            <TextView
+                android:text="Cantidad"
                 android:layout_width="match_parent"
-                android:layout_height="66dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3" />
+
+            <NumberPicker
+                android:layout_width="match_parent"
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/Cantidad"
                 android:singleLine="true"
-                android:text="0" />
+                android:text="0"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -44,7 +56,7 @@
                     android:layout_height="70dp"
                     android:id="@+id/Agregar"
                     android:layout_weight="0.09"
-                    style="@android:style/Widget.Material.Light.Button" />
+                    style="@android:style/Widget.Material.Button" />
 
                 <Button
                     android:text="Guardar"

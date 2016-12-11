@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,8 +41,10 @@ public class LevantarPedido extends AppCompatActivity {
                 .obtenerInstancia(getApplicationContext());
 
         final Spinner productoSpinner = (Spinner) findViewById(R.id.Producto);
-        final EditText cantidad =  (EditText) findViewById(R.id.Cantidad);
+        final NumberPicker cantidad =  (NumberPicker) findViewById(R.id.Cantidad);
         final TableView tablaProductos = (TableView) findViewById(R.id.productos);
+        cantidad.setMaxValue(5000);
+        cantidad.setMinValue(1);
 
         Button agregar = (Button) findViewById(R.id.Agregar);
         Button guardar = (Button) findViewById(R.id.Guardar);
@@ -52,11 +55,14 @@ public class LevantarPedido extends AppCompatActivity {
                 Producto pOriginal = (Producto)productoSpinner.getSelectedItem();
 
                 Producto p = new Producto(pOriginal.idProducto, pOriginal.nombre, pOriginal.precio, pOriginal.existencias);
-                int c = Integer.parseInt(String.valueOf(cantidad.getText()));
+                int c = cantidad.getValue();
                 p.cantidad = c;
                 productos.add(p);
 
                 tablaProductos.setDataAdapter(new ProductoTableAdapter(LevantarPedido.this , productos));
+
+                cantidad.setValue(1);
+                productoSpinner.setSelection(0);
 
                 Toast.makeText(LevantarPedido.this, "Producto agregado", Toast.LENGTH_SHORT).show();
             }
@@ -80,6 +86,10 @@ public class LevantarPedido extends AppCompatActivity {
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(productos.isEmpty()){
+                    Toast.makeText(LevantarPedido.this, "Elija al menos 1 producto.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 OperacionesBaseDatos datos = OperacionesBaseDatos
                         .obtenerInstancia(LevantarPedido.this.getApplicationContext());
                 datos.getDb().beginTransaction();
